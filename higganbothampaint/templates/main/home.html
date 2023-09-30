@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block content %}
+	<img class="logo" src="{{ url_for('static', filename='img/logoemptied.png') }}">
+{% endblock content %}
+
+{% block estimate %}
+	<div class="col-md-4">
+	      <div class="content-section">
+	        <h3>Schedule A Free Estimate</h3>
+	        <p class='text-muted'>Select a date and time that works for you.
+	          <ul class="list-group">
+	          	<form id="schedule_estimate" method="POST" action="{{ url_for('main.process_estimate_form') }}">
+	          		{{ form.csrf_token }}
+	          		{{ form.hidden_tag() }}
+	          		<fieldset class="form-group">
+	          			<legend class="border-bottom mb-4">Schedule Now</legend>
+	          			<!-- email -->
+	          			<div class="form-group">
+	          				{{ form.email.label(class="form-control-label") }}
+
+	          				{% if form.email.errors %}
+	          					{{ form.email(class="form-control form-control-lg is-invalid") }}
+	          					<div class="invalid-feedback">
+	          						{% for error in form.email.errors %}
+	          							<span>{{ error }}</span>
+	          						{% endfor %}
+	          					</div>
+	          				{% else %}
+	          					{{ form.email(class="form-control form-control-lg") }}
+	          				{% endif %}
+	          			</div>
+	          			<p></p>
+	          			<!-- phone number -->
+	          			<div class="form-group">
+	          				{{ form.phone_number.label(class="form-control-label") }}
+
+	          				{% if form.phone_number.errors %}
+	          					{{ form.phone_number(class="form-control form-control-lg is-invalid") }}
+	          					<div class="invalid-feedback">
+	          						{% for error in form.phone_number.errors %}
+	          							<span>{{ error }}</span>
+	          						{% endfor %}
+	          					</div>
+	          				{% else %}
+	          					{{ form.phone_number(class="form-control form-control-lg") }}
+	          				{% endif %}
+	          			</div>
+	          			<p></p>
+	          			<!-- description needs to change -->
+	          			<div class="form-group">
+	          				{{ form.description.label(class="form-control-label") }}
+
+	          				{% if form.description.errors %}
+	          					{{ form.description(class="form-control form-control-lg is-invalid") }}
+	          					<div class="invalid-feedback">
+	          						{% for error in form.description.errors %}
+	          							<span>{{ error }}</span>
+	          						{% endfor %}
+	          					</div>
+	          				{% else %}
+	          					{{ form.description(class="form-control form-control-lg") }}
+	          				{% endif %}
+	          			</div>
+	          			<p></p>
+	          			<!-- date -->
+	          			<div class="form-group">
+	          				{{ form.date.label(class="form-control-label") }}
+
+	          				{% if form.date.errors %}
+	          					{{ form.date(class="form-control form-control-lg is-invalid") }}
+	          					<div class="invalid-feedback">
+	          						{% for error in form.date.errors %}
+	          							<span>{{ error }}</span>
+	          						{% endfor %}
+	          					</div>
+	          				{% else %}
+	          					{{ form.date(class="form-control form-control-lg") }}
+	          				{% endif %}
+	          			</div>
+
+	          			<!-- submit -->
+	          			<div class="form-group">
+	          				<p></p> <!-- to put space between btn and form -->
+	          				{{ form.submit(class="btn btn-outline-info") }}
+	          			</div>
+	          		</fieldset>
+	          	</form>
+	          	<script src="{{ url_for('static', filename='js/estimate.js')}}"></script>
+	          </ul>
+	        </p>
+	      </div>
+	    </div>
+	  </div>
+{% endblock estimate %}
