@@ -1,3 +1,9 @@
+General 
+
+	set up mail server
+
+	set up administrative panel
+
 
 
 Models

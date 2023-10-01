@@ -1,17 +1,17 @@
-from flask import render_template, url_for, flash, redirect, request, jsonify
-from higganbothampaint import app
-from higganbothampaint.forms import RegisterForm, ScheduleEstimateForm
-from higganbothampaint.models import ScheduleEstimate
+from flask import Blueprint, render_template, url_for, flash, redirect, request, jsonify
+from hpaint.forms import RegisterForm, ScheduleEstimateForm
+from hpaint.models import ScheduleEstimate
 
+main = Blueprint("main", __name__)
 
-@app.route("/")
-@app.route("/home", methods=['GET', 'POST'])
+@main.route("/")
+@main.route("/home", methods=['GET', 'POST'])
 def home():
 	form = ScheduleEstimateForm()
-	return render_template("public/home.html", form=form) # argument for jinja variables
+	return render_template("main/home.html", form=form) # argument for jinja variables
 
 
-@app.route("/about", methods=['GET', 'POST'])
+@main.route("/about", methods=['GET', 'POST'])
 def about():
 	form = ScheduleEstimateForm()
 	if form.validate_on_submit():
@@ -20,34 +20,34 @@ def about():
 	else:
 		flash('Scheduling unsuccessful. Please check required fields.', 'danger')
 	# I think reviews should go here
-	return render_template("public/about.html", title='About', form=form)
+	return render_template("main/about.html", title='About', form=form)
 
 
 
-@app.route("/login", methods=['GET', 'POST'])
+@main.route("/login", methods=['GET', 'POST'])
 def services():
 	form = ScheduleEstimateForm()
-	return render_template("public/services.html", title='Services', form=form)
+	return render_template("main/services.html", title='Services', form=form)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - Form Processing - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# @app.route("/process-estimate", methods=['POST'])
-# def process_estimate_form():
-# 	try:
-# 		data = request.get_json()
+@main.route("/process-estimate", methods=['POST'])
+def process_estimate_form():
+	# try:
+	# 	data = request.get_json()
 
-# 		new_estimate = 
-# 	except Exception as e:
-
+	# 	new_estimate = 
+	# except Exception as e:
+	pass
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - ReviewLoading - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - -
  
-@app.route("/reviews")
+@main.route("/reviews")
 def reviews():
 	''' here we implant the api to google reviews, could not find an api in the google console cloud
 	    maybe make a database of the reviews? Could run it on the backend and have

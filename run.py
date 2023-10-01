@@ -1,4 +1,4 @@
-from higganbothampaint import app
+from hpaint import app
 
 
 if __name__ == '__main__':

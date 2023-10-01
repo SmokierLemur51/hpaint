@@ -1,5 +1,5 @@
 from datetime import datetime
-from higganbothampaint import db
+from hpaint import db
 from flask_login import UserMixin
 
 
