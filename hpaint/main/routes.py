@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request,
 from hpaint.forms import RegisterForm, ScheduleEstimateForm
 from hpaint.models import ScheduleEstimate
 
-main = Blueprint("main", __name__)
+main = Blueprint("main", __name__, url_prefix="/")
 
 @main.route("/")
 @main.route("/home", methods=['GET', 'POST'])

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request,
 from hpaint.forms import RegisterForm, ScheduleEstimateForm
 from hpaint.models import ScheduleEstimate
 
-cafe = Blueprint("cafe", __name__)
+cafe = Blueprint("cafe", __name__, url_prefix="/")
 
 @cafe.route("/cafe")
 def cafe_login():
