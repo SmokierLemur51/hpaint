@@ -1,0 +1,194 @@
+/* i need to clean this shit up fr fr */
+
+/*
+  colors
+    - royal blue - #4169e1 - i like this one
+*/
+
+/*  */
+
+.square-container {
+    /* width: 200px; /* Set the desired width for the square container */
+    /* height: 200px; /* Set the same height as the width for a square container */
+    border: 30px solid #4169e1; /* Set the border color and thickness */
+    margin: 20px auto; /* Center the square container horizontally and provide space at the top */
+}
+
+.white-text {
+    color: white;
+}
+
+/* tried to make links whiter */
+.active-link {
+    background-color: #4169e1; /* New background color for the active link */
+    color: #orange; /* New text color for the active link */
+    font-weight: bold; /* New font weight for the active link */
+    /* Add other custom styles as needed */
+}
+
+
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+/* NAVBAR */
+
+.bg-steel {
+  background-color: #5f788a;
+  background-color: #4169e1;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.add-space {
+  padding-left: 200px;
+}
+
+/* CONTENT */
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+/* FORMS */
+
+/* trying to change button color */
+.form-group .btn{
+  border-color: #4169e1;
+  color: #3759C7;
+}
+
+.form-group .btn:hover {
+  color: whitesmoke;
+  background-color: #4169e1;
+}
+
+/* IMAGES */
+
+.logo {
+  width: 700px;
+  height: 400px;
+}
+
+/* ABOUT SECTION */
+
+.about-section-space {
+  font-family: Noto Mono;
+  padding-top: 25px;
+  color: #000000;
+  font-size: large;
+}
+
+.about-section {
+  font-family: Noto Mono;
+  color: #000000;
+  padding-top: 10px;
+  font-size: large;
+
+}
+
+/* CONTACT SECTION */
+
+.grid-container {
+  font-family: Noto Mono;
+  color: #000000;
+  grid-template-areas: 
+  "sidebar role"
+  "sidebar information";
+  display: inline-flex;
+  font-size: largef;
+
+}
+
+.grid-item-1 {
+  width: 200px;
+  height: 300px;
+  grid-area: sidebar;
+  padding-bottom: 25px;
+}
+
+.grid-item-2 {
+  padding-top: 25px;
+  grid-area: role;
+/*  padding-left: 25px;*/
+}
+
+.grid-item-3 {
+  padding-top: 10px;
+  grid-area: information;
+/*  padding-left: 25px;*/
+
+}
+
+.contact {
+  font-size: 2.3rem;
+  padding-bottom: 50px;
+}
