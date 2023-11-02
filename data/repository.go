@@ -41,7 +41,7 @@ func (q *QuoteAutoEmail) SendReceiveConfirmationEmail() error {
     return nil
 }
 
- 
+
 type UserRole struct {
     Id int
     Role string
