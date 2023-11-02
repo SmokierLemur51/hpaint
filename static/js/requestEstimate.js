@@ -6,11 +6,13 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     function submitRequestForm() {
+        const nameVal = document.getElementById("name").value;
         const telephoneVal = document.getElementById("telephone").value;
         const emailVal = document.getElementById("email").value;
         const descriptionVal = document.getElementById("description").value;
 
         const formData = {
+            name: nameVal,
             telephone: telephoneVal,
             email: emailVal,
             description: descriptionVal,
