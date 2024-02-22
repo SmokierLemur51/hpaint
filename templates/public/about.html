@@ -1,0 +1,94 @@
+{{ define "public/about.html" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="">
+    
+    <title>Higginbotham Painting, Inc.</title>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="/">Higginbotham Painting, Inc.</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="container-md">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services">Services</a>
+                    </li>
+                </ul>	      	
+          </div>
+      </nav>
+    </header>
+    
+    <div class="container-lg">
+        
+    </div>
+    <div class="container-md square-container">
+        <div class="text-center">
+            <img class="logo" src="/static/img/logoemptied.png">
+        </div>
+    </div>
+    <div class="container-lg" >
+        <div class="card">
+            <div class="card-header">
+            Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Request Estimate</h5>
+                <form id="request_estimate" method="POST" action="/request-estimate">
+                    <!-- name -->
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Full Name</label>
+                      <input type="text" class="form-control" id="name" placeholder="Walter Melon">
+                    </div>
+                    <!-- phone -->
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label">Phone number</label>
+                        <input type="tel" class="form-control" id="telephone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="Please enter a valid phone number (e.g., 123-456-7890)">
+                    </div>
+                    <!-- email -->
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Description</label>
+                      <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br></br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+<footer class="footer signature-color">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p class="white-text" >&copy; 2023 {{ .devCompany }}. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>
+{{ end }}

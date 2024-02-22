@@ -1,31 +1,49 @@
 package main
 
 import (
-	"log"
-	"net/http"
+	"database/sql"
+	"fmt"
 
 	"github.com/SmokierLemur51/hpaint/routes"
 
-	"github.com/go-chi/chi/v5"
-    "github.com/go-chi/chi/v5/middleware"
+	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
 )
 
-type ServerConfig struct {
-	PORT string
+type Server struct {
+	Router *gin.Engine
+	DB     *sql.DB
+}
+
+func (s *Server) configureRouter() {
+	s.Router = gin.Default()
+	s.Router.LoadHTMLGlob("templates/**/*")
+	s.Router.Static("/static", "./static")
+}
+
+func (s *Server) connectDatabase(databaseFile string) {
+	var err error
+	s.DB, err = sql.Open("sqlite3", fmt.Sprintf("instance/%s", databaseFile))
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (s Server) registerRoutes() {
+	// handler functions can be found in public.go
+	s.Router.GET("/", routes.IndexHandler)
+	s.Router.GET("/about", routes.AboutHandler)
+
+	// portal login
+	s.Router.GET("/secret-portal", routes.LoginHandler)
 }
 
 func main() {
-	var config ServerConfig = ServerConfig{PORT: ":5000"}
-	r := chi.NewRouter()
-    r.Use(middleware.RequestID)
-    r.Use(middleware.RealIP)
-    r.Use(middleware.Logger)
-    r.Use(middleware.Recoverer)
-    
-    r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	var s Server
 
-	routes.ConfigureRoutes(r)
+	s.configureRouter()
+	s.connectDatabase("test_1.db")
+	s.registerRoutes()
 
-	log.Println("Starting server on port ", config.PORT)
-	http.ListenAndServe(config.PORT, r)
+	s.Router.Run(":5000") // defaults to port 8080
 }
