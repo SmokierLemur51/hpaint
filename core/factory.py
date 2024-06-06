@@ -23,10 +23,13 @@ def create_app(**config_overrides) -> Flask:
     app.config.update(config_overrides)
     
     # blueprints
-    from .blueprints.public.database
+    from .blueprints.public.views import public
+    app.register_blueprint(public)
 
     # database
-    from .models import db
+    from .models.models import db
+    db.init_app(app)
+
     with app.app_context():
         db.create_all()
 
