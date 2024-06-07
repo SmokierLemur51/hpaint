@@ -43,3 +43,9 @@ def exterior(request):
 def testimonials(request):
     context = {"title": "Testimonials"}
     return render(request, "public/testimonials.html", context)
+
+
+"""Post forms"""
+def new_contact(request):
+        
+    return HttpResponse(reverse())
