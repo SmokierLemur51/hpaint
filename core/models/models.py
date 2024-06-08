@@ -19,8 +19,11 @@ class StatusCode(Base):
     __tablename__ = "status_codes"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    code: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    info: Mapped[str] = mapped_column(String(500), nullable=True)
 
-
+    def __repr__(self) -> str:
+        return self.code
 
 
 class EstimateRequest(Base):
@@ -30,6 +33,7 @@ class EstimateRequest(Base):
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
     contacted: Mapped[bool] = mapped_column(Boolean, default=False)
     converted: Mapped[bool] = mapped_column(Boolean, default=False)
+    job_type: Mapped[str] = mapped_column(String(20), nullable=False, default="general")
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     phone: Mapped[str] = mapped_column(String(10), nullable=False)
     email: Mapped[str] = mapped_column(String(120), nullable=True)
@@ -60,11 +64,6 @@ class ContactRequest(Base):
         return "{}'s contact request.".format(self.name)
 
 
-    def check_not_duplicate(self, db: SQLAlchemy) -> bool:
-        return True
-
-    def create_note(): # -> Note
-        pass    
 
 
 # Administrative notes for contact requests
