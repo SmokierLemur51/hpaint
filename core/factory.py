@@ -26,11 +26,15 @@ def create_app(**config_overrides) -> Flask:
     from .blueprints.public.routes import public
     app.register_blueprint(public)
 
+    from .blueprints.portal.routes import portal
+    app.register_blueprint(portal)
+
     # database
     from .models.models import db
     db.init_app(app)
 
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.drop_all()
+    #     db.create_all()
 
     return app

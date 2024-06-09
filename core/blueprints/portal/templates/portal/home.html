@@ -1,0 +1,9 @@
+{% extends 'portal.html' %}
+
+{% block main %}
+
+{% for c in elements["codes"] %}
+    <p>{{ c.code }}</p>
+{% endfor %}
+
+{% endblock main %}

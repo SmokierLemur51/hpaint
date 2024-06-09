@@ -7,11 +7,27 @@ from flask import current_app
 
 from sqlalchemy.exc import IntegrityError
 
-from ..models import StatusCode
+from ..models import (
+    ContactRequest,
+    StatusCode,
+) 
 
 def populate_stat_codes(db: SQLAlchemy) -> None:
     stat_codes = [
-        StatusCode(code="open", info="Not yet contacted."),
+        StatusCode(code="New", info="A newly received lead contact request that has not been reviewed yet."),
+        StatusCode(code="Reviewed", info="The lead contact request has been reviewed but no further action has been taken yet."),
+        StatusCode(code="Contacted", info="The lead has been contacted."),
+        StatusCode(code="Follow-Up Scheduled", info="A follow-up call or meeting has been scheduled with the lead."),
+        StatusCode(code="In Progress", info="Discussions or negotiations are actively ongoing with the lead."),
+        StatusCode(code="Awaiting Response", info="Waiting for a response from the lead after contacting or sending a proposal."),
+        StatusCode(code="Proposal Sent", info="A formal proposal has been sent to the lead."),
+        StatusCode(code="Negotiation", info="The lead is negotiating terms or pricing with us."),
+        StatusCode(code="Closed Won", info="The lead has agreed to proceed with our services and the deal is closed."),
+        StatusCode(code="Closed Lost", info="The lead has decided not to proceed with our services and the deal is closed."),
+        StatusCode(code="Deferred", info="The lead has expressed interest but wants to delay the project to a later date."),
+        StatusCode(code="Invalid", info="The lead contact request is invalid (e.g., spam, incorrect contact details)."),
+        StatusCode(code="Duplicate", info="The lead contact request is a duplicate of a previously received request."),
+        StatusCode(code="Archived", info="The lead request is archived for future reference but is not currently active.")
     ]
     with current_app.app_context():
         try:
@@ -21,3 +37,19 @@ def populate_stat_codes(db: SQLAlchemy) -> None:
             db.session.rollback()
             print(e)
         
+
+def populate_contact_requests(db: SQLAlchemy) -> None:
+    reqs = [
+        ContactRequest(
+            name="Logan",
+            phone="0129991234",
+            email="trainwreck@gmail.com",
+            message="I need help urgent!! I shit on the wall and my mom is gonna be so mad! HELP!",
+        ),
+        ContactRequest(
+            name="Javier Garvia",
+            phone="",
+            email="",
+            message="",
+        ),
+    ]
