@@ -47,9 +47,31 @@ def populate_contact_requests(db: SQLAlchemy) -> None:
             message="I need help urgent!! I shit on the wall and my mom is gonna be so mad! HELP!",
         ),
         ContactRequest(
-            name="Javier Garvia",
-            phone="",
-            email="",
-            message="",
+            name="Javier Garcia",
+            phone="1234567891",
+            email="javiergarcia@nomail.com",
+            message="You guys come paint house. Tuesday please.",
+        ),
+        ContactRequest(
+            name="Juan Torres",
+            phone="7894561234",
+            email="juantorres@gmail.com",
+            message="I was wondering if you guys do charity work? My mom has dementia.",
+        ),
+        ContactRequest(
+            name="Harry Potter",
+            phone="4561386795",
+            email="harrypotter@fakeemail.com",
+            message="I am a builder, looking to sub contract painting gigs out to someone. Are you interested?",
+        ),
+        ContactRequest(
+            nam=""
         ),
     ]
+    with current_app.app_context():
+        try:
+            db.session.add_all(reqs)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            print(IntegrityError)
