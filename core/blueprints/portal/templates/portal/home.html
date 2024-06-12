@@ -2,8 +2,15 @@
 
 {% block main %}
 
-{% for c in elements["codes"] %}
-    <p>{{ c.code }}</p>
-{% endfor %}
+<div class="container-lg">
+
+    <div class="card">
+    {% for c in elements["contact_requests"] %}
+        <p>{{ c.name }}</p>
+    {% endfor %}        
+    </div>
+    
+</div>
+
 
 {% endblock main %}

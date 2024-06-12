@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from ..models import (
     ContactRequest,
+    EstimateRequest,
     StatusCode,
 ) 
 
@@ -65,8 +66,31 @@ def populate_contact_requests(db: SQLAlchemy) -> None:
             message="I am a builder, looking to sub contract painting gigs out to someone. Are you interested?",
         ),
         ContactRequest(
-            nam=""
+            name="Taylor Swift",
+            phone="5050551000",
+            email="realtaylor@notemail.com",
+            message="I would like to perform at your next painting job please. Hit my line.",
         ),
+    ]
+    with current_app.app_context():
+        try:
+            db.session.add_all(reqs)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            print(IntegrityError)
+
+
+
+def populate_estimate_requests(db: SQLAlchemy) -> None:
+    reqs = [
+        EstimateRequest(
+            name="Logan",
+            phone="0129991234",
+            email="trainwreck@gmail.com",
+            message="I need help urgent!! I shit on the wall and my mom is gonna be so mad! HELP!",
+        ),
+
     ]
     with current_app.app_context():
         try:
