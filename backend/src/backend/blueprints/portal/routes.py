@@ -17,6 +17,7 @@ def insert_data():
 
 
 """ Main Routes """
+# Landing page of the admin portal. General overview of what is happening.
 @portal.route("/")
 def home():
     elements = {
@@ -81,6 +82,11 @@ def estimates():
     return render_template("estimates.html", elements=elements)
 
 
+# Specific estimate/proposal. 
+# You can:
+#   - export to pdf
+#   - send email 
+#   - schedule 
 @portal.route("/estimates/<int:id>")
 def estimate(id):
     # estimate = db.get_or_404(Estimate, id)
