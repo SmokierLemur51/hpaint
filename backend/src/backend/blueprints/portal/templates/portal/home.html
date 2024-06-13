@@ -1,0 +1,16 @@
+{% extends 'portal.html' %}
+
+{% block main %}
+
+<div class="container-lg">
+
+    <div class="card">
+    {% for c in elements["contact_requests"] %}
+        <p>{{ c.name }}</p>
+    {% endfor %}        
+    </div>
+    
+</div>
+
+
+{% endblock main %}
