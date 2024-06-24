@@ -7,3 +7,16 @@
 .transparent-border {
     border-color: transparent;
 }
+
+.signature-color-button {
+    background-color: #66b2ff;
+    border-color: #66b2ff;
+    color: black;
+}
+
+.signature-color-button-expand {
+    background-color: #66b2ff;
+    border-color: #66b2ff;
+    width: 60%;
+    color: black;
+}

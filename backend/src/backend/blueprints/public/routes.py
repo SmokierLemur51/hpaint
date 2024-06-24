@@ -4,14 +4,30 @@ from .forms import ContactRequestForm, EstimateRequestForm
 from ...models.models import db
 from ...models.models import ContactRequest, EstimateRequest
 
+
 public = Blueprint('public', __name__, template_folder="templates/public", url_prefix="/")
 
-@public.route("/")
+
+@public.route("/", methods=['GET', 'POST'])
 def index():
+    form = ContactRequestForm()
+    print(form.errors)
+    if form.validate_on_submit():
+        new_ = ContactRequest(
+            name=form.name.data,
+            phone=form.phone.data,
+            email=form.email.data,
+            message=form.message.data,
+        )
+        with current_app.app_context():    
+            db.session.add(new_)
+            db.session.commit()
+        flash("Thank you! We will be in touch.")
+        return redirect(url_for("public.index"))
     elements = {
         "title": "Higginbotham Paint",
     }
-    return render_template("index.html", elements=elements)
+    return render_template("index.html", elements=elements, form=form)
 
 
 

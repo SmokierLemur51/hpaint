@@ -8,7 +8,7 @@ class ContactRequestForm(FlaskForm):
     name = StringField(label='Name', validators=[DataRequired()])
     phone = StringField(label='Phone', validators=[DataRequired()])
     email = StringField(label='Email', validators=[DataRequired()])
-    message = StringField(label='How can we help?') 
+    message = TextAreaField(label='How can we help?') 
     submit = SubmitField(label="Submit")
 
 
@@ -18,7 +18,7 @@ class EstimateRequestForm(FlaskForm):
     name = StringField(label='Name', validators=[DataRequired()])
     phone = StringField(label='Phone', validators=[DataRequired()])
     email = StringField(label='Email', validators=[DataRequired()])
-    message = StringField(label='How can we help?') 
+    message = TextAreaField(label='How can we help?') 
     submit = SubmitField(label="Submit")
 
 
@@ -27,5 +27,5 @@ class TestimonialForm(FlaskForm):
     name = StringField(label='Name', validators=[DataRequired()])
     phone = StringField(label='Phone', validators=[DataRequired()])
     email = StringField(label='Email', validators=[DataRequired()])
-    message = StringField(label='How can we help?') 
+    message = TextAreaField(label='How can we help?') 
     submit = SubmitField(label="Submit")
