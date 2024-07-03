@@ -1,9 +1,9 @@
 from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 
-# from .forms import 
+from .forms import CreateEstimateForm 
 from ...models.models import db
-from ...models.models import ContactRequest, EstimateRequest, StatusCode
-
+from ...models.models import ContactRequest, EstimateRequest, StatusCode, Estimate
+from ..public.forms import ContactRequestForm
 
 portal = Blueprint('portal', __name__, template_folder="templates/portal", url_prefix="/portal")
 
@@ -22,9 +22,9 @@ def insert_data():
 def home():
     elements = {
         "title": "Higginbotham Paint",
-        "contact_requests": db.session.scalars(db.select(ContactRequest)).all(),
     }
-    return render_template("home.html", elements=elements)
+    return render_template("home.html", elements=elements,
+        contacts=db.session.scalars(db.select(ContactRequest).where(ContactRequest.contacted == False)).all())
 
 
 # Contact requests, filtered by status. Default status is Neww
@@ -33,7 +33,8 @@ def contact_requests():
     elements = {
         "title": "Higginbotham Paint",
     }
-    return render_template("contact_requests.html", elements=elements)
+    return render_template("contact_requests.html", elements=elements, 
+        contacts=db.session.scalars(db.select(ContactRequest).where(ContactRequest.contacted == False)).all())
 
 
 # Specific contact request, given its own page to help with focus when calling. 
@@ -48,6 +49,40 @@ def contact_request(id):
         "title": f"{request_.name}'s Request",
     }
     return render_template("contact_request_x.html", elements=elements, request_=request_)
+
+# This route is for converting a contact request into an estimate. 
+@portal.route("/contact-requests/create-estimate/<int:id>", methods=['GET', 'POST'])
+def convert_to_estimate(id):
+    contact = db.get_or_404(ContactRequest, id)
+    form = CreateEstimateForm()
+    # pop 
+    if request.method == 'GET':
+        form.contact_request_id.data = contact.id
+        form.name.data = contact.name
+        form.phone.data = contact.phone
+        form.email.data = contact.email
+
+    if form.validate_on_submit():
+        new_ = Estimate(
+            contact_request_id=form.contact_request_id.data,
+            name=form.name.data,
+            phone=form.phone.data,
+            email=form.email.data,
+            total=form.total.data,
+            street=form.street.data,
+            street2=form.street2.data,
+            city=form.city.data,
+            state=form.state.data,
+            zip_code=form.zip_code.data,
+        )
+        with current_app.app_context():    
+            db.session.add(new_)
+            db.session.commit()
+        flash("Thank you! We will be in touch.")
+        return redirect(url_for("public.index"))
+    # end of form
+    elements = {'title': 'Create Estimate'}
+    return render_template('create_estimate_from_x.html', elements=elements, contact=contact, form=form)
 
 
 # All estimate requests, paginated and sorted by newest that are of New status. 
@@ -94,3 +129,5 @@ def estimate(id):
         "title": f"{id}'s Estimates",
     }
     return render_template("estimate.html", elements=elements)
+
+

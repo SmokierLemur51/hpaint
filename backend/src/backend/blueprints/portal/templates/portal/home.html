@@ -1,16 +1,56 @@
 {% extends 'portal.html' %}
 
+
+{% block staticFiles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock staticFiles %}
+
+{% block navbar %}
+<!-- top navbar start -->
+<nav class="navbar navbar-expand-lg mb-8 signature-color">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('portal.home') }}">Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('portal.home') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{{ url_for('portal.contact_requests') }}">Contact Requets</a>
+              </li>
+              
+          </ul>
+      </div>
+  </div>
+</nav>
+{% endblock navbar %}
+
 {% block main %}
 
 <div class="container-lg">
-
     <div class="card">
-    {% for c in elements["contact_requests"] %}
-        <p>{{ c.name }}</p>
-    {% endfor %}        
+        <div class="card-header">Customer Contact Requests</div>
+        <div class="card-body">
+            {% for c in contacts %}
+            <div class="row align-items-center mt-3">
+                <div class="col-4 text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ c.name }}
+                            <a href="{{ url_for('portal.convert_to_estimate', id=c.id) }}" class="btn signature-color-button">Create Estimate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="d-flex justify-content-center">
+              <a href="{{ url_for('portal.contact_requests') }}" class="btn btn-primary signature-color-button mt-4" style="width: 60%;">More About Us</a>
+            </div>
+        </div>
     </div>
-    
 </div>
-
 
 {% endblock main %}

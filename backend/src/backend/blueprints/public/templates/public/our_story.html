@@ -7,7 +7,7 @@
 
 {% block navbar %}
 <!-- top navbar start -->
-<nav class="navbar navbar-expand-lg mb-8 signature-color" >
+<nav class="navbar navbar-expand-lg mb-8 signature-color">
   <div class="container-fluid">
       <a class="navbar-brand" href="{{ url_for('public.index') }}">Higginbotham Painting</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,29 +15,35 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
               <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{{ url_for('public.services') }}">Services</a>
+                  <a class="nav-link" aria-current="page" href="{{ url_for('public.index') }}">Home</a>
               </li>
-
               <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{{ url_for('public.about') }}">About</a>
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('public.our_story') }}">Our Story</a>
               </li>
-
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Services
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{{ url_for('public.residential') }}">Residential Painting</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('public.commercial') }}">Commercial Painting</a></li>
+                  <li><a class="dropdown-item" href="{{ url_for('public.exterior') }}">Exterior Painting</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{ url_for('public.services') }}">All Services</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{{ url_for('public.testimonials') }}">Testimonials</a>
+              </li>
               <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="{{ url_for('public.contact') }}">Contact Us</a>
               </li>
-
           </ul>
-          <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Ask a Question" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Ask</button>
-          </form>
       </div>
   </div>
 </nav>
 {% endblock navbar %}
-
 {% block main %}
 
 

@@ -11,7 +11,6 @@ public = Blueprint('public', __name__, template_folder="templates/public", url_p
 @public.route("/", methods=['GET', 'POST'])
 def index():
     form = ContactRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = ContactRequest(
             name=form.name.data,
@@ -42,7 +41,6 @@ def our_story():
 @public.route("/services")
 def services():
     form = EstimateRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = EstimateRequest(
             job_type="general",
@@ -65,7 +63,6 @@ def services():
 @public.route("/services/residential")
 def residential():
     form = EstimateRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = EstimateRequest(
             job_type="residential",
@@ -88,7 +85,6 @@ def residential():
 @public.route("/services/commercial")
 def commercial():
     form = EstimateRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = EstimateRequest(
             job_type="commercial",
@@ -111,7 +107,6 @@ def commercial():
 @public.route("/services/exterior")
 def exterior():
     form = EstimateRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = EstimateRequest(
             job_type="exterior",
@@ -134,7 +129,6 @@ def exterior():
 @public.route("/contact", methods=["GET", "POST"])
 def contact():
     form = ContactRequestForm()
-    print(form.errors)
     if form.validate_on_submit():
         new_ = ContactRequest(
             name=form.name.data,

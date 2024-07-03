@@ -44,7 +44,7 @@ class EstimateRequest(Base):
 
 
 
-# 
+1
 # Contact request forms
 class ContactRequest(Base):
     __tablename__ = "contact_requests"
@@ -87,7 +87,20 @@ class Estimate(Base):
     __tablename__ = "estimates"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    contact_request_id: Mapped[int] = mapped_column(ForeignKey('contact_requests.id'), nullable=True)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    phone: Mapped[str] = mapped_column(String(10), nullable=False)
+    email: Mapped[str] = mapped_column(String(120), nullable=True)
+    total: Mapped[float] = mapped_column(Float, default=0.0)
+    street: Mapped[str] = mapped_column(String(120))
+    steet_2: Mapped[str] = mapped_column(String(120), nullable=True)
+    city: Mapped[str] = mapped_column(String(60))
+    state: Mapped[str] = mapped_column(String(2)) 
+    zip_code: Mapped[str] = mapped_column(String(10))    
 
+    def __repr__(self) -> str:
+        return self.name
 
 
 """ 

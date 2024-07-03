@@ -1,0 +1,170 @@
+{% extends 'portal.html' %}
+
+
+{% block staticFiles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock staticFiles %}
+
+{% block navbar %}
+<!-- top navbar start -->
+<nav class="navbar navbar-expand-lg mb-8 signature-color">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('portal.home') }}">Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{{ url_for('portal.home') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{{ url_for('portal.contact_requests') }}">Contact Requests</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{{ url_for('portal.estimates') }}">Estimates</a>
+            </li>
+          </ul>
+      </div>
+  </div>
+</nav>
+{% endblock navbar %}
+
+{% block main %}
+
+<div class="container-md mt-4">
+    <div class="card">
+        <div class="card-header">Create Estimate For {{ contact.name }}</div>
+        <div class="card-body">
+            <form method="POST">
+                {{ form.csrf_token }}    
+                {{ form.hidden_tag() }}
+                <fieldset>
+                    <legend class="border-bottom mb-4">{{ legend }}</legend>
+                    <div class="form-group mb-3">
+                        {{ form.name.label(class='form-control-lable') }}
+                        {% if form.name.errors %}
+                            {{ form.name.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.phone.label(class='form-control-lable') }}
+                        {% if form.phone.errors %}
+                            {{ form.phone.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.phone.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.phone(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.email.label(class='form-control-lable') }}
+                        {% if form.email.errors %}
+                            {{ form.email.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.email(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.street.label(class='form-control-lable') }}
+                        {% if form.street.errors %}
+                            {{ form.street.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.street.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.street(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.street2.label(class='form-control-lable') }}
+                        {% if form.street2.errors %}
+                            {{ form.street2.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.street2.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.street2(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.city.label(class='form-control-lable') }}
+                        {% if form.city.errors %}
+                            {{ form.city.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.city.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.city(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.state.label(class='form-control-lable') }}
+                        {% if form.state.errors %}
+                            {{ form.state.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.state.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.state(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.zip_code.label(class='form-control-lable') }}
+                        {% if form.zip_code.errors %}
+                            {{ form.zip_code.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.zip_code.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.zip_code(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.total.label(class='form-control-lable') }}
+                        {% if form.total.errors %}
+                            {{ form.total.label(class='form-control form-control-sm is-invalid') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.total.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.total(class='form-control form-control-sm')}}
+                        {% endif %}
+                    </div>
+                    <div class="form-group text-center mb-3">
+                        {{ form.save(class='btn signature-color-button', style='width: 75%;') }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
