@@ -126,6 +126,7 @@ def exterior():
     return render_template("exterior.html", elements=elements)
 
 
+
 @public.route("/contact", methods=["GET", "POST"])
 def contact():
     form = ContactRequestForm()
@@ -145,9 +146,6 @@ def contact():
         "title": "Contact Us",
     }
     return render_template("contact.html", elements=elements, form=form)
-
-
-
 
 
 @public.route("/testimonials")

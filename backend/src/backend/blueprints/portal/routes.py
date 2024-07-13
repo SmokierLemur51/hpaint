@@ -1,6 +1,10 @@
 from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 
-from .forms import CreateEstimateForm 
+from .forms import CreateEstimateForm
+from .queries import (
+    get_contact_requests,
+    get_estimates,
+)
 from ...models.models import db
 from ...models.models import ContactRequest, EstimateRequest, StatusCode, Estimate
 from ..public.forms import ContactRequestForm
@@ -24,7 +28,7 @@ def home():
         "title": "Higginbotham Paint",
     }
     return render_template("home.html", elements=elements,
-        contacts=db.session.scalars(db.select(ContactRequest).where(ContactRequest.contacted == False)).all())
+        contacts=get_contact_requests(contacted_filter=False))
 
 
 # Contact requests, filtered by status. Default status is Neww
@@ -34,7 +38,7 @@ def contact_requests():
         "title": "Higginbotham Paint",
     }
     return render_template("contact_requests.html", elements=elements, 
-        contacts=db.session.scalars(db.select(ContactRequest).where(ContactRequest.contacted == False)).all())
+        contacts=get_contact_requests(contacted_filter=False))
 
 
 # Specific contact request, given its own page to help with focus when calling. 
@@ -78,7 +82,7 @@ def convert_to_estimate(id):
         with current_app.app_context():    
             db.session.add(new_)
             db.session.commit()
-        flash("Thank you! We will be in touch.")
+        flash("Estimate successfully created.")
         return redirect(url_for("public.index"))
     # end of form
     elements = {'title': 'Create Estimate'}
@@ -114,7 +118,7 @@ def estimates():
     elements = {
         "title": "Estimates",
     }
-    return render_template("estimates.html", elements=elements)
+    return render_template("estimates.html", elements=elements, estimates=get_estimates(db))
 
 
 # Specific estimate/proposal. 
