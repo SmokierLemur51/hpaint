@@ -31,11 +31,11 @@ def index():
 
 
 @public.route("/our-story")
-def our_story():
+def about():
     elements = {
         "title": "Our Story",
     }
-    return render_template("our_story.html", elements=elements)
+    return render_template("about.html", elements=elements)
 
 
 @public.route("/services")
