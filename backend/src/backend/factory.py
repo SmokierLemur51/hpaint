@@ -33,8 +33,12 @@ def create_app(**config_overrides) -> Flask:
     from .models.models import db
     db.init_app(app)
 
-    # with app.app_context():
-    #     db.drop_all()
-    #     db.create_all()
+    from .extensions import fbcrypt, login_manager
+    fbcrypt.init_app(app)
+    login_manager.init_app(app)
+
+    # with app.app_context( ):
+        # db.drop_all()
+        # db.create_all()
 
     return app

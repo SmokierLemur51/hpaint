@@ -6,6 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Boolean, DateTime, Integer, Float, ForeignKey, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
+from flask_login import UserMixin
+
+from ..extensions import login_manager
 
 
 class Base(DeclarativeBase):
@@ -13,6 +16,26 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
+
+
+class User(Base, UserMixin):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    # user info
+    username: Mapped[str] = mapped_column(String(60), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    # server info
+    last_logged_in: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
+    last_ip: Mapped[str] = mapped_column(String(25), nullable=True)
+
+    def __repr__(self):
+        return self.username
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.scalar(db.select(User).where(User.id == user_id))
 
 
 class StatusCode(Base):
@@ -44,7 +67,6 @@ class EstimateRequest(Base):
 
 
 
-1
 # Contact request forms
 class ContactRequest(Base):
     __tablename__ = "contact_requests"
@@ -85,7 +107,6 @@ class ContactRequestNote(Base):
 
 class Estimate(Base):
     __tablename__ = "estimates"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     contact_request_id: Mapped[int] = mapped_column(ForeignKey('contact_requests.id'), nullable=True)
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
@@ -104,63 +125,3 @@ class Estimate(Base):
 
     def __repr__(self) -> str:
         return self.name
-
-
-""" 
-class Address(Base):
-
-    __tablename__ = "addresses"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
-    street: Mapped[str] = mapped_column(String(120))
-    steet_2: Mapped[str] = mapped_column(String(120), nullable=True)
-    city: Mapped[str] = mapped_column(String(60))
-    state: Mapped[str] = mapped_column(String(2)) # add options
-    zip_code: Mapped[str] = mapped_column(String(10))
-
-
-    def __repr__(self) -> str:
-        return "{}".format(self.street)
-        
-
-
-
-
-
-
-
-class EstimateRequest(Base):
-
-    __tablename__ = "estimate_requests"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
-    contacted: Mapped[bool] = mapped_column(Boolean, default=False)
-    converted: Mapped[bool] = mapped_column(Boolean, default=False)
-    name: Mapped[str] = mapped_column(String(120), nullable=False)
-    phone: Mapped[str] = mapped_column(String(10), nullable=False)
-    email: Mapped[str] = mapped_column(String(120), nullable=True)
-    message: Mapped[str] = mapped_column(String(500), nullable=True)
-
-    def __repr__(self) -> str:
-        return "{}'s estimate request.".format(self.name)
-
-
-
-
-class EstimateRequestNote(Base):
-    
-
-    __tablename__ = "estimate_request_notes"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    estimate_request_id: Mapped[int] = mapped_column(ForeignKey('estimate_requests.id'))
-    title: Mapped[str] = mapped_column(String(120))
-    content: Mapped[str] = mapped_column(String(255))
-
-    def __repr__(self) -> str:
-        return "{} <EstimateRequest-{}>".format(self.title, self.estimate_request_id)
-
-
-"""

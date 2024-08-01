@@ -5,8 +5,16 @@ from ...models.models import (
     ContactRequest,
     EstimateRequest,
     Estimate,
+    User
 )
 
+def get_user(db: SQLAlchemy, u: str) -> User|None:
+    try:
+        u = db.session.scalar(db.select(User).where(User.username == u))
+        return u
+    except AttributeError:
+        return None
+        
 
 def get_contact_requests(db: SQLAlchemy, contacted_filter: bool) -> List[ContactRequest]:
     """Provide bool to filter through ContactRequest.contacted"""

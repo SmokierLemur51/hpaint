@@ -1,34 +1,78 @@
-from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
-
-from .forms import CreateEstimateForm
-from .queries import (
-    get_contact_requests,
-    get_estimates,
+from flask import (
+    abort,
+    Blueprint, 
+    current_app, 
+    flash, 
+    redirect, render_template, request, 
+    url_for,
 )
+from flask_login import (
+    current_user,
+    login_user, 
+    logout_user,
+    login_required, 
+)
+
+from . import forms, queries
 from ...models.models import db
-from ...models.models import ContactRequest, EstimateRequest, StatusCode, Estimate
-from ..public.forms import ContactRequestForm
+from ...models.models import (
+    ContactRequest, 
+    Estimate,
+    EstimateRequest, 
+    User,
+    StatusCode, 
+)
+from ...extensions import fbcrypt, login_manager
 
 portal = Blueprint('portal', __name__, template_folder="templates/portal", url_prefix="/portal")
 
-
-""" Temporary rotues, development phase only. """
-@portal.route("/tables/insert")
-def insert_data():
-    # from ...models.tests.populate import populate_estimate_requests
-    # populate_estimate_requests(db)
-    return redirect(url_for('portal.home'))
+@portal.route("/pop")
+def pop():
+    db.session.add(User(username="test", email="ldl6147@gmail.com",
+        password=fbcrypt.generate_password_hash("pw")))
+    db.session.commit()
+    return redirect(url_for('portal.login'))
 
 
 """ Main Routes """
+@portal.route("/login", methods=['GET', 'POST'])
+def login():
+    # redirect to the portal homepage if authenticated
+    if current_user.is_authenticated:
+        return redirect(url_for('portal.home'))
+    # login page information
+    elements = {"title": "Login"}
+    f = forms.LoginForm()
+    if f.validate_on_submit():
+        u = queries.get_user(db, f.username.data)
+        print(f"User Pass: {u.password}, Given: {f.password.data}")
+        if u and fbcrypt.check_password_hash(u.password, f.password.data):
+            login_user(u)
+            next = request.args.get("next")
+            # check for safe url, django has a good thing apparently
+            # if not url_has_allowed_host_and_scheme(next, request.host):
+            #     abort(400)
+            return redirect(next or url_for('portal.home'))
+        else:
+            print('invalid creds')
+            flash('Invalid credentials.', 'danger')
+    return render_template("login.html", elements=elements, form=f)
+
+
+@portal.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('portal.login'))
+
 # Landing page of the admin portal. General overview of what is happening.
 @portal.route("/")
+@login_required
 def home():
     elements = {
         "title": "Higginbotham Paint",
     }
     return render_template("home.html", elements=elements,
-        contacts=get_contact_requests(contacted_filter=False))
+        contacts=queries.get_contact_requests(db, contacted_filter=False))
 
 
 # Contact requests, filtered by status. Default status is Neww
@@ -38,7 +82,7 @@ def contact_requests():
         "title": "Higginbotham Paint",
     }
     return render_template("contact_requests.html", elements=elements, 
-        contacts=get_contact_requests(contacted_filter=False))
+        contacts=queries.get_contact_requests(db, contacted_filter=False))
 
 
 # Specific contact request, given its own page to help with focus when calling. 
@@ -58,7 +102,7 @@ def contact_request(id):
 @portal.route("/contact-requests/create-estimate/<int:id>", methods=['GET', 'POST'])
 def convert_to_estimate(id):
     contact = db.get_or_404(ContactRequest, id)
-    form = CreateEstimateForm()
+    form = forms.CreateEstimateForm()
     # pop 
     if request.method == 'GET':
         form.contact_request_id.data = contact.id

@@ -1,23 +1,21 @@
-""" 
-Required Forms:
-
-Login
-CreateUser
-ChangePassword
-CreateContactNote
-CreateEstimateNote
-
-"""
 from flask_wtf import FlaskForm
 from wtforms import (
-    DecimalField, EmailField, HiddenField, SelectField, StringField, TextAreaField, SubmitField
+    DecimalField, 
+    EmailField, 
+    HiddenField, 
+    SelectField, 
+    StringField, 
+    TextAreaField, 
+    SubmitField, 
+    PasswordField,
 )
 from wtforms.validators import DataRequired
 
 
 class LoginForm(FlaskForm):
-    pass
-
+    username = StringField(label='Username', validators=[DataRequired(message="Please enter your username.")])
+    password = StringField(label='Password', validators=[DataRequired(message="Please enter your password.")])
+    submit = SubmitField('Submit')
 
 class CreateUser(FlaskForm):
     pass
