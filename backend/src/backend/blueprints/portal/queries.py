@@ -16,6 +16,7 @@ def get_user(db: SQLAlchemy, u: str) -> User|None:
         return None
         
 
+
 def get_contact_requests(db: SQLAlchemy, contacted_filter: bool) -> List[ContactRequest]:
     """Provide bool to filter through ContactRequest.contacted"""
     return db.session.scalars(db.select(ContactRequest).where(ContactRequest.contacted == contacted_filter)).all()

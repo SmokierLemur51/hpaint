@@ -24,7 +24,13 @@ from ...models.models import (
 )
 from ...extensions import fbcrypt, login_manager
 
-portal = Blueprint('portal', __name__, template_folder="templates/portal", url_prefix="/portal")
+
+portal = Blueprint(
+    'portal', 
+    __name__, 
+    template_folder="templates/portal",
+    url_prefix="/portal")
+
 
 @portal.route("/pop")
 def pop():
@@ -64,6 +70,7 @@ def logout():
     logout_user()
     return redirect(url_for('portal.login'))
 
+
 # Landing page of the admin portal. General overview of what is happening.
 @portal.route("/")
 @login_required
@@ -77,6 +84,7 @@ def home():
 
 # Contact requests, filtered by status. Default status is Neww
 @portal.route("/contact-requests")
+@login_required
 def contact_requests():
     elements = {
         "title": "Higginbotham Paint",
@@ -90,6 +98,7 @@ def contact_requests():
 #   - Create a note on the contact request. 
 #   - Convert into an estimate
 @portal.route("/contact-requests/<int:id>")
+@login_required
 def contact_request(id):
     request_ = db.get_or_404(request_Request, id)
     # NewNote
@@ -98,8 +107,10 @@ def contact_request(id):
     }
     return render_template("contact_request_x.html", elements=elements, request_=request_)
 
+
 # This route is for converting a contact request into an estimate. 
 @portal.route("/contact-requests/create-estimate/<int:id>", methods=['GET', 'POST'])
+@login_required
 def convert_to_estimate(id):
     contact = db.get_or_404(ContactRequest, id)
     form = forms.CreateEstimateForm()
@@ -135,6 +146,7 @@ def convert_to_estimate(id):
 
 # All estimate requests, paginated and sorted by newest that are of New status. 
 @portal.route("/estimate-requests")
+@login_required
 def estimate_requests():
     elements = {"title": "Estimate Requests"}
     return render_template("estimate_requests.html", elements=elements)
@@ -146,6 +158,7 @@ def estimate_requests():
 #   - convert to proposal/estimate
 #   - generate and email/text pdf
 @portal.route("/estimate-requests/<int:id>")
+@login_required
 def estimate_request(id):
     request_ = db.get_or_404(EstimateRequest, id)
     elements = {
@@ -156,6 +169,7 @@ def estimate_request(id):
 
 # Admin created estimates/proposals. Sorted by status.
 @portal.route("/estimates")
+@login_required
 def estimates():
     # create_estimate = CreateEstimateForm()
     # update_estiamte = UpdateEstimateForm()
@@ -171,6 +185,7 @@ def estimates():
 #   - send email 
 #   - schedule 
 @portal.route("/estimates/<int:id>")
+@login_required
 def estimate(id):
     # estimate = db.get_or_404(Estimate, id)
     elements = {
