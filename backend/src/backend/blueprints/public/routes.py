@@ -12,14 +12,15 @@ public = Blueprint('public', __name__, template_folder="templates/public", url_p
 def index():
     form = ContactRequestForm()
     if form.validate_on_submit():
-        new_ = ContactRequest(
+        new = ContactRequest(
+            requested_on_page="index",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
@@ -42,7 +43,7 @@ def about():
 def services():
     form = EstimateRequestForm()
     if form.validate_on_submit():
-        new_ = EstimateRequest(
+        new = EstimateRequest(
             job_type="general",
             name=form.name.data,
             phone=form.phone.data,
@@ -50,7 +51,7 @@ def services():
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
@@ -64,7 +65,7 @@ def services():
 def residential():
     form = EstimateRequestForm()
     if form.validate_on_submit():
-        new_ = EstimateRequest(
+        new = EstimateRequest(
             job_type="residential",
             name=form.name.data,
             phone=form.phone.data,
@@ -72,7 +73,7 @@ def residential():
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
@@ -86,7 +87,7 @@ def residential():
 def commercial():
     form = EstimateRequestForm()
     if form.validate_on_submit():
-        new_ = EstimateRequest(
+        new = EstimateRequest(
             job_type="commercial",
             name=form.name.data,
             phone=form.phone.data,
@@ -94,7 +95,7 @@ def commercial():
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
@@ -108,7 +109,7 @@ def commercial():
 def exterior():
     form = EstimateRequestForm()
     if form.validate_on_submit():
-        new_ = EstimateRequest(
+        new = EstimateRequest(
             job_type="exterior",
             name=form.name.data,
             phone=form.phone.data,
@@ -116,7 +117,7 @@ def exterior():
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
@@ -131,14 +132,14 @@ def exterior():
 def contact():
     form = ContactRequestForm()
     if form.validate_on_submit():
-        new_ = ContactRequest(
+        new = ContactRequest(
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
         )
         with current_app.app_context():    
-            db.session.add(new_)
+            db.session.add(new)
             db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))

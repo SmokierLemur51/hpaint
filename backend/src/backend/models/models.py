@@ -75,6 +75,7 @@ class ContactRequest(Base):
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
     contacted: Mapped[bool] = mapped_column(Boolean, default=False)
     converted: Mapped[bool] = mapped_column(Boolean, default=False)
+    requested_on_page: Mapped[str] = mapped_column(String(60))
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     phone: Mapped[str] = mapped_column(String(10), nullable=False)
     email: Mapped[str] = mapped_column(String(120), nullable=True)
