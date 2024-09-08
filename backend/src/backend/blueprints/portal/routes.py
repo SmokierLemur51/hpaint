@@ -40,36 +40,6 @@ def pop():
     return redirect(url_for('portal.login'))
 
 
-""" Main Routes """
-@portal.route("/login", methods=['GET', 'POST'])
-def login():
-    # redirect to the portal homepage if authenticated
-    if current_user.is_authenticated:
-        return redirect(url_for('portal.home'))
-    # login page information
-    elements = {"title": "Login"}
-    f = forms.LoginForm()
-    if f.validate_on_submit():
-        u = queries.get_user(db, f.username.data)
-        print(f"User Pass: {u.password}, Given: {f.password.data}")
-        if u and fbcrypt.check_password_hash(u.password, f.password.data):
-            login_user(u)
-            next = request.args.get("next")
-            # check for safe url, django has a good thing apparently
-            # if not url_has_allowed_host_and_scheme(next, request.host):
-            #     abort(400)
-            return redirect(next or url_for('portal.home'))
-        else:
-            print('invalid creds')
-            flash('Invalid credentials.', 'danger')
-    return render_template("login.html", elements=elements, form=f)
-
-
-@portal.route("/logout")
-def logout():
-    logout_user()
-    return redirect(url_for('portal.login'))
-
 
 # Landing page of the admin portal. General overview of what is happening.
 @portal.route("/")

@@ -18,24 +18,35 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
+class Role(Base):
+    __tablename__ = "roles"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(80), unique=True)
+    info: Mapped[str] = mapped_column(String(250), nullable=True)
+
+    users: Mapped[List["User"]] = relationship(back_populates="role")
+    
+    def __repr__(self) -> str:
+        return self.name
+
+
 class User(Base, UserMixin):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
-    # user info
-    username: Mapped[str] = mapped_column(String(60), unique=True, nullable=False)
-    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(String(100), nullable=False)
-    # server info
-    last_logged_in: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
-    last_ip: Mapped[str] = mapped_column(String(25), nullable=True)
+    role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))    
+    username: Mapped[str] = mapped_column(String(160), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(60), nullable=False)
+    
+    role: Mapped["Role"] = relationship(back_populates="users")                                        
 
-    def __repr__(self):
-        return self.username
+    def __repr__(self) -> str:
+        return self.public_username
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.scalar(db.select(User).where(User.id == user_id))
+
 
 
 class StatusCode(Base):
