@@ -1,6 +1,6 @@
 from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 
-from .forms import ContactRequestForm, EstimateRequestForm
+from . import forms
 from ...models.models import db
 from ...models.models import ContactRequest, EstimateRequest
 
@@ -10,18 +10,16 @@ public = Blueprint('public', __name__, template_folder="templates/public", url_p
 
 @public.route("/", methods=['GET', 'POST'])
 def index():
-    form = ContactRequestForm()
+    form = forms.ContactRequestForm()
     if form.validate_on_submit():
-        new = ContactRequest(
+        db.session.add(ContactRequest(
             requested_on_page="index",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        ))
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -41,18 +39,16 @@ def about():
 
 @public.route("/services")
 def services():
-    form = EstimateRequestForm()
+    form = forms.EstimateRequestForm()
     if form.validate_on_submit():
-        new = EstimateRequest(
+        db.session.add(EstimateRequest(
             job_type="general",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        ))
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -63,18 +59,16 @@ def services():
 
 @public.route("/services/residential")
 def residential():
-    form = EstimateRequestForm()
+    form = forms.EstimateRequestForm()
     if form.validate_on_submit():
-        new = EstimateRequest(
+        db.session.add(EstimateRequest(
             job_type="residential",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        ))
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -85,18 +79,16 @@ def residential():
 
 @public.route("/services/commercial")
 def commercial():
-    form = EstimateRequestForm()
+    form = forms.EstimateRequestForm()
     if form.validate_on_submit():
-        new = EstimateRequest(
+        db.session.add(EstimateRequest(
             job_type="commercial",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        ))
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -107,18 +99,16 @@ def commercial():
 
 @public.route("/services/exterior")
 def exterior():
-    form = EstimateRequestForm()
+    form = forms.EstimateRequestForm()
     if form.validate_on_submit():
-        new = EstimateRequest(
+        db.session.add(EstimateRequest(
             job_type="exterior",
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        ))
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -130,17 +120,15 @@ def exterior():
 
 @public.route("/contact", methods=["GET", "POST"])
 def contact():
-    form = ContactRequestForm()
+    form = forms.ContactRequestForm()
     if form.validate_on_submit():
-        new = ContactRequest(
+        db.session.add(ContactRequest(
             name=form.name.data,
             phone=form.phone.data,
             email=form.email.data,
             message=form.message.data,
-        )
-        with current_app.app_context():    
-            db.session.add(new)
-            db.session.commit()
+        )) 
+        db.session.commit()
         flash("Thank you! We will be in touch.")
         return redirect(url_for("public.index"))
     elements = {
@@ -156,3 +144,8 @@ def testimonials():
         "title": "Testimonials",
     }
     return render_template("testimonials.html", elements=elements)
+
+
+@public.route("/sidebar")
+def sidebar():
+    return render_template('sidebar.html', elements={'title': 'test'}) 

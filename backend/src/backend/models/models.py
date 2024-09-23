@@ -98,8 +98,6 @@ class ContactRequest(Base):
         return "{}'s contact request.".format(self.name)
 
 
-
-
 # Administrative notes for contact requests
 class ContactRequestNote(Base): 
     __tablename__ = "notes"

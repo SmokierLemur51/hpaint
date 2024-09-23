@@ -55,7 +55,7 @@ def register_user():
     elements = {
         "title": "Register User",    
     }
-    f = forms.RegisterUserf()
+    f = forms.RegisterUserForm()
     if f.validate_on_submit():
         if f.password.data == f.password_match.data:
             u = User(

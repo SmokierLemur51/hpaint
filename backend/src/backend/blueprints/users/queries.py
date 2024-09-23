@@ -5,6 +5,7 @@ from ...models.models import (
     User
 )
 
+# This could be more efficient
 def get_user(db: SQLAlchemy, u: str) -> User|None:
     """Loading user for flask_login
     :param db: flask_sqlalchemy object.
@@ -24,14 +25,14 @@ def get_user(db: SQLAlchemy, u: str) -> User|None:
 
 
 # Might be best to rename to something like unique_usernames
-def check_unique_usernames(db: SQLAlchemy, username: str) -> bool:
-    """ 
+def check_unique_username(db: SQLAlchemy, username: str) -> bool:
+    """
     """
     try:
         u = db.session.scalar(db.select(User).where(User.username == priv))
         # Check all are None
         if u is None:
-            print("Usernamesprovided is unique.")
+            print("Username provided is unique.")
             return True
         else:
             print("Username is not unique.")

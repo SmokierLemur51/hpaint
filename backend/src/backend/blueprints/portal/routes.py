@@ -41,10 +41,11 @@ def pop():
 
 
 
-# Landing page of the admin portal. General overview of what is happening.
 @portal.route("/")
 @login_required
 def home():
+    """Landing page of the admin portal. General overview of what is happening.
+    """
     elements = {
         "title": "Higginbotham Paint",
     }
